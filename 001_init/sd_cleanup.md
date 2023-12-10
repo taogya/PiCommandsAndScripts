@@ -1,4 +1,6 @@
 # SDカード初期化
+方法1. Raspberry Pi Imagerにて削除を行う。<br>
+方法2. 以下のコマンドを実行。<br>
 ```sh
 $ diskutil list
  :
@@ -9,8 +11,10 @@ $ diskutil list
    2:                      Linux                         33.6 MB    disk4s5
    3:             Windows_FAT_32 boot                    268.4 MB   disk4s6
    4:                      Linux                         13.1 GB    disk4s7
+
 $ diskutil umountDisk /dev/disk4
 Unmount of all volumes on disk4 was successful
+
 $ diskutil eraseDisk MS-DOS BOOTFS disk4
 Started erase on disk4
 Unmounting disk
