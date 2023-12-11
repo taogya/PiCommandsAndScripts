@@ -1,6 +1,4 @@
 # SDカード書き込み
-方法1. Raspberry Pi Imagerにて書き込み<br>
-方法2. リストアする場合にも使える方法<br>
 ```sh
 $ diskutil list
  :
