@@ -6,7 +6,7 @@ fi
 sed -i "s/console=serial0,115200 //g" /boot/cmdline.txt
 ```
 
-# 通信設定(9600bps, 8bit, stop bit, parity)
+# 通信設定(9600bps, 8bit, stop bit, parity none)
 ```sh
 stty -F /dev/ttyS0 9600 cs8 -cstopb -parity
 ```
