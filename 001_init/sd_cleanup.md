@@ -1,6 +1,4 @@
 # SDカード初期化
-方法1. Raspberry Pi Imagerにて削除を行う。<br>
-方法2. 以下のコマンドを実行。<br>
 ```sh
 $ diskutil list
  :
