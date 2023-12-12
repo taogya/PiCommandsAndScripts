@@ -1,5 +1,6 @@
 # PiCommandsAndScripts
-よく使うコマンドやシェルスクリプトなどのまとめ
+よく使うコマンドやシェルスクリプトなどのまとめ<br>
+[setup_sample.sh](setup_sample.sh)は[Raspberry Pi Imager](https://www.raspberrypi.com/software/)で設定した項目に加えて設定するサンプルスクリプトです。<br>
 
 - [Bluetooth](Bluetooth/README.md)
 - [Board](Board/README.md)

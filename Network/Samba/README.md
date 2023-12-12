@@ -9,7 +9,7 @@ apt-get install -y samba
 # global設定
 sed -i "/^\[global\]$/a \\    dos charset = CP932" /etc/samba/smb.conf
 sed -i "/^\[global\]$/a \\    unix charset = UTF8" /etc/samba/smb.conf
-sed -i "/^\[global\]$/a \\    min protocol = SMB2 " /etc/samba/smb.conf
+sed -i "/^\[global\]$/a \\    min protocol = SMB2" /etc/samba/smb.conf
 sed -i "/^\[global\]$/a \\    max protocol = SMB2" /etc/samba/smb.conf
 sed -i "/^\[global\]$/a \\    veto files = /.*/" /etc/samba/smb.conf
 ```
@@ -31,8 +31,7 @@ echo -n "[${SMB_USER}]
     browsable = yes
     writable = yes
     create mask = 0644
-    directory mask = 0755
-" >> /etc/samba/smb.conf
+    directory mask = 0755" >> /etc/samba/smb.conf
 
 service smbd restart
 smbpasswd -a "${SMB_USER}"
