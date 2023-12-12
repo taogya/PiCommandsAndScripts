@@ -1,5 +1,9 @@
-# USB Ether Gadgetの設定方法
+# USB
+- [USB Ether Gadgetの設定](#usb_ether)
+
+## <a id="usb_ether">USB Ether Gadgetの設定</a>
 ```sh
+sudo su -
 if ! grep "dtoverlay=dwc2" /boot/config.txt > /dev/null 2>&1 ; then
     echo "dtoverlay=dwc2" >> /boot/config.txt
 fi
