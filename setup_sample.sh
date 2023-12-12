@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SSH_DIR=
+
 GIT_USER=
 GIT_MAIL=
 GIT_SECRET_KEY=
@@ -11,7 +13,6 @@ SSH_PUBKEY_EN=yes
 SSH_PASS_EN=yes
 SSH_KEY_PATH=.ssh/authorized_keys
 SSH_CONF_PATH=/etc/ssh/sshd_config.d/sshd.conf
-SSH_USER_HOME=
 SSH_PUBKEY=
 
 SMB_USER=samba
@@ -83,16 +84,16 @@ setup_git(){
 
   git config --global user.name "${GIT_USER}"
   git config --global user.email "${GIT_MAIL}"
-  mkdir -p ~/.ssh
-  echo "${GIT_SECRET_KEY}" > ~/.ssh/git_secret_key
+  mkdir -p "${SSH_DIR}"
+  echo "${GIT_SECRET_KEY}" > "${SSH_DIR}"/git_secret_key
   echo -n "
 Host github.com
     HostName github.com
     User git
     Port 22
     IdentityFile ~/.ssh/git_secret_key
-    IdentitiesOnly yes" > ~/.ssh/config
-  chmod 600 ~/.ssh/*
+    IdentitiesOnly yes" > "${SSH_DIR}"/config
+  chmod 600 "${SSH_DIR}"/*
 }
 
 # ==================== Network ====================
@@ -164,13 +165,13 @@ PasswordAuthentication ${SSH_PASS_EN}
 AuthorizedKeysFile ${SSH_KEY_PATH}
 " > "${SSH_CONF_PATH}"
 
-  echo "${SSH_PUBKEY}" >> "${SSH_USER_HOME}"/.ssh/authorized_keys
+  echo "${SSH_PUBKEY}" >> "${SSH_DIR}"/authorized_keys
 }
 
 # ==================== Global ====================
 # -------------------- Root Prompt Color --------------------
 setup_root_prompt_color(){
-  if ! grep "PS1=" "/root/.bashrc" > /dev/null 2>&1 ; then
+  if ! grep "^PS1=" /root/.bashrc > /dev/null 2>&1 ; then
     echo -n "
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] '
 " >> /root/.bashrc
