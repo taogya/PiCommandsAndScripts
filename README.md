@@ -19,16 +19,16 @@ reboot now
 ```
 
 ## <a id="prompt_color">プロンプトカラー</a>
-| Color                                         | Code |
-| --------------------------------------------- | ---- |
-| <span style="color: #000000">■</span> Black   | 30   |
-| <span style="color: #ff0000">■</span> Red     | 31   |
-| <span style="color: #00ff00">■</span> Green   | 32   |
-| <span style="color: #ffff00">■</span> Yellow  | 33   |
-| <span style="color: #0000ff">■</span> Blue    | 34   |
-| <span style="color: #ff00ff">■</span> Magenta | 35   |
-| <span style="color: #00ffff">■</span> Cyan    | 36   |
-| <span style="color: #ffffff">■</span> White   | 37   |
+| Color             | Code |
+| ----------------- | ---- |
+| #000000 (Black)   | 30   |
+| #ff0000 (Red)     | 31   |
+| #00ff00 (Green)   | 32   |
+| #ffff00 (Yellow)  | 33   |
+| #0000ff (Blue)    | 34   |
+| #ff00ff (Magenta) | 35   |
+| #00ffff (Cyan)    | 36   |
+| #ffffff (White)   | 37   |
 ```sh
 # rootに赤色を設定している例
 sudo su -
