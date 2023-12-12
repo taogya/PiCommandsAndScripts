@@ -5,9 +5,7 @@
 ## <a id="en_hardware_uart">ハードウェアUARTの有効化</a>
 ```sh
 sudo su -
-if ! grep "enable_uart=1" /boot/config.txt > /dev/null 2>&1 ; then
-    echo "enable_uart=1" >> /boot/config.txt
-fi
+echo "enable_uart=1" >> /boot/config.txt
 sed -i "s/console=serial0,115200 //g" /boot/cmdline.txt
 ```
 

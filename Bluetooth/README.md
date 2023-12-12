@@ -3,7 +3,7 @@
 
 ## <a id="suppress_error">Bluetoothサービスのエラー抑制</a>
 ```sh
-sed -i 's|ExecStart=/usr/libexec/bluetooth/bluetoothd|ExecStart=/usr/libexec/bluetooth/bluetoothd --noplugin=sap|g' /lib/systemd/system/bluetooth.service
+sed -i 's|^ExecStart=/usr/libexec/bluetooth/bluetoothd$|ExecStart=/usr/libexec/bluetooth/bluetoothd --noplugin=sap|g' /lib/systemd/system/bluetooth.service
 mkdir -p /etc/systemd/system/bthelper@.service.d/
 echo -n '
 [Unit]
