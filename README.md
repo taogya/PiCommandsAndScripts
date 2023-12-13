@@ -1,14 +1,25 @@
 # PiCommandsAndScripts
-よく使うコマンドやシェルスクリプトなどのまとめ<br>
-[setup_sample.sh](setup_sample.sh)は[Raspberry Pi Imager](https://www.raspberrypi.com/software/)で設定した項目に加えて設定するサンプルスクリプトです。<br>
+よく使うコマンドやシェルスクリプトなどのまとめ
 
+## 項目一覧
+- [setupスクリプト](#setup)
+- [Raspberry Piの更新](#update)
+- [プロンプトカラー](#prompt_color)
 - [Bluetooth](Bluetooth/README.md)
 - [Board](Board/README.md)
 - [Git](Git/README.md)
 - [SD](SD/README.md)
 - [SSH](SSH/README.md)
-- [Raspberry Piの更新](#update)
-- [プロンプトカラー](#prompt_color)
+
+## <a id="setup">setupスクリプト</a>
+[setup_sample.sh](setup_sample.sh) は [Raspberry Pi Imager](https://www.raspberrypi.com/software/) で設定した項目に加えて設定するサンプルスクリプトです。<br>
+以下のように使用します。<br>
+```sh
+sudo su -
+vi setup.sh
+# <- setup_sample.shの中身を編集し，コピペする。
+sh setup.sh | tee setup.log
+```
 
 ## <a id="update">Raspberry Piの更新</a>
 ```sh

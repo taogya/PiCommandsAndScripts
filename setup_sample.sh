@@ -1,18 +1,17 @@
 #!/bin/bash
 
-SSH_DIR=
+TARGET_USER=pi
 
 GIT_USER=
 GIT_MAIL=
 GIT_SECRET_KEY=
 
+SSH_CONF_PATH=/etc/ssh/sshd_config.d/sshd.conf
 SSH_PORT=22
 SSH_ROOT_EN=no
 SSH_PUBKEY_EN=yes
 # SSH_PASS_ENは，公開鍵設定確立後にコンフィグファイルをnoに書き換えることを推奨
 SSH_PASS_EN=yes
-SSH_KEY_PATH=.ssh/authorized_keys
-SSH_CONF_PATH=/etc/ssh/sshd_config.d/sshd.conf
 SSH_PUBKEY=
 
 SMB_USER=samba
@@ -81,29 +80,39 @@ setup_usb_ether_gadget(){
 # ==================== Git ====================
 setup_git(){
   apt-get install -y git
-
-  git config --global user.name "${GIT_USER}"
-  git config --global user.email "${GIT_MAIL}"
-  mkdir -p "${SSH_DIR}"
-  echo "${GIT_SECRET_KEY}" > "${SSH_DIR}"/git_secret_key
-  echo -n "
+  su - "${TARGET_USER}" << GITEOF
+git config --global user.name "${GIT_USER}"
+git config --global user.email "${GIT_MAIL}"
+mkdir -p .ssh
+echo "${GIT_SECRET_KEY}" > .ssh/git_secret_key
+echo -n "
 Host github.com
-    HostName github.com
-    User git
-    Port 22
-    IdentityFile ~/.ssh/git_secret_key
-    IdentitiesOnly yes" > "${SSH_DIR}"/config
-  chmod 600 "${SSH_DIR}"/*
+  HostName github.com
+  User git
+  Port 22
+  IdentityFile ~/.ssh/git_secret_key
+  IdentitiesOnly yes" > .ssh/config
+chmod 600 .ssh/*
+GITEOF
 }
 
 # ==================== Network ====================
 # -------------------- Samba --------------------
 setup_samba(){
-  apt-get install -y samba
+  apt-get install -y samba expect
 
   useradd -m "${SMB_USER}"
   echo -e "${SMB_ACCESS_PASS}\n${SMB_ACCESS_PASS}" | smbpasswd -a "${SMB_USER}"
-  
+  expect -c "
+  set timeout 10
+  spawn smbpasswd -a $SMB_USER
+    expect \"New SMB password:\"
+      send \"$SMB_ACCESS_PASS\n\"
+    expect \"Retype new SMB password:\"
+      send \"$SMB_ACCESS_PASS\n\"
+  interact
+  "
+
   if ! grep "\[${SMB_USER}\]" /etc/samba/smb.conf > /dev/null 2>&1 ; then
     sed -i "/^\[global\]$/a \\    dos charset = CP932" /etc/samba/smb.conf
     sed -i "/^\[global\]$/a \\    unix charset = UTF8" /etc/samba/smb.conf
@@ -160,12 +169,18 @@ setup_ssh(){
   echo -n "
 Port ${SSH_PORT}
 PermitRootLogin ${SSH_ROOT_EN}
-PubkeyAuthentication ${SSH_PUBKEY_EN}
 PasswordAuthentication ${SSH_PASS_EN}
-AuthorizedKeysFile ${SSH_KEY_PATH}
+PubkeyAuthentication ${SSH_PUBKEY_EN}
+AuthorizedKeysFile .ssh/authorized_keys
 " > "${SSH_CONF_PATH}"
 
-  echo "${SSH_PUBKEY}" >> "${SSH_DIR}"/authorized_keys
+  if [ "$SSH_PUBKEY_EN" = "yes" ]; then
+      su - "${TARGET_USER}" << SSHEOF
+mkdir -p .ssh
+echo "${SSH_PUBKEY}" >> .ssh/authorized_keys
+chmod 600 .ssh/*
+SSHEOF
+  fi
 }
 
 # ==================== Global ====================
@@ -190,6 +205,7 @@ if [ "$(whoami)" != "root" ]; then
   echo "Permission Denied."
   exit 1
 fi
+set -x
 # 不要なものはコメントアウトする
 suppress_bluetooth_error
 setup_heartbeat
@@ -203,7 +219,7 @@ disable_ipv6
 #setup_ssh
 setup_root_prompt_color
 update
+set +x
 
 # 必ず再起動
-history -c
 reboot now
