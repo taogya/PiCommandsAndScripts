@@ -1,4 +1,4 @@
-# SSH
+# VisualStudioCode
 - [接続設定](#connection)
 - [拡張機能<Python>](#extensions)
 
