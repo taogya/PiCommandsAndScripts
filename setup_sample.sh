@@ -60,6 +60,14 @@ setup_heartbeat(){
   add_if_not_exists "dtparam=pwr_led_trigger=heartbeat" /boot/config.txt
 }
 
+setup_shutdown(){
+  if ! grep "dtoverlay=gpio-shutdown" /boot/config.txt > /dev/null 2>&1 ; then
+      echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000" >> /boot/config.txt
+  fi
+  add_if_not_exists "dtparam=pwr_led_trigger=heartbeat" /boot/config.txt
+  echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000 >> /boot/config.txt
+}
+
 # -------------------- UART --------------------
 setup_hardware_uart(){
   add_if_not_exists "enable_uart=1" /boot/config.txt
