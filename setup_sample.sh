@@ -64,8 +64,6 @@ setup_shutdown(){
   if ! grep "dtoverlay=gpio-shutdown" /boot/config.txt > /dev/null 2>&1 ; then
       echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000" >> /boot/config.txt
   fi
-  add_if_not_exists "dtparam=pwr_led_trigger=heartbeat" /boot/config.txt
-  echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000 >> /boot/config.txt
 }
 
 # -------------------- UART --------------------
@@ -217,6 +215,7 @@ set -x
 # 不要なものはコメントアウトする
 suppress_bluetooth_error
 setup_heartbeat
+#setup_shutdown
 #setup_hardware_uart
 setup_usb_ether_gadget
 #setup_git
