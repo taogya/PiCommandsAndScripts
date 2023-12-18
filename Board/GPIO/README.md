@@ -11,7 +11,7 @@ echo "dtparam=pwr_led_trigger=heartbeat" >> /boot/config.txt
 GPIO3ピンにスイッチを取り付けると，電源ON/OFF制御ができます。
 ```sh
 sudo su -
-echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000 >> /boot/config.txt
+echo "dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up,debounce=1000" >> /boot/config.txt
 ```
 > GPIO3を使用する場合，i2cをOFFにする必要があります。 <br>
 > ```sh
